@@ -15,7 +15,7 @@ def processImage(imgPath, debug=False):
     puzzleCnt = findOutline(img)
     croppedImg = cropImage(rawimg, puzzleCnt)
 
-    processedImage = cv2.resize(croppedImg, dsize=(450,450))
+    processedImage = cv2.resize(croppedImg, dsize=(225,225))
 
     #Vizualize the outline and cropped Image for debugging
     if debug:
@@ -58,16 +58,14 @@ def cropImage(img, puzzleCnt):
     return four_point_transform(img, puzzleCnt.reshape(4, 2))
 
 #Extract the digit from the cell
-def extractDigit(img, x, y, debug=False):
+def extractDigit(inputImage, x, y, debug=False):
 
-    imgHeight = (50)
-    imgWidth = (50)
+    cell = inputImage[(25 * y):((25 * y) + 25 + 4), (25 * x):((25 * x) + 25 + 4)]
 
-    cell = img[(imgHeight * y):((imgHeight * y) + imgHeight + 5), (imgWidth * x):((imgWidth * x) + imgWidth + 5)]
-
+    img = cv2.resize(cell, dsize=(50,50))
     # apply automatic thresholding to the cell and then clear any
     # connected borders that touch the border of the cell
-    img = cv2.cvtColor(cell, cv2.COLOR_BGR2GRAY)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
     img = clear_border(img)
 
@@ -91,12 +89,11 @@ def extractDigit(img, x, y, debug=False):
     (h, w) = img.shape
     percentFilled = cv2.countNonZero(mask) / float(w * h)
 
-    img = cv2.GaussianBlur(img, (1, 1), 0)
+    img = cv2.medianBlur(img, 3)
     img = cv2.bitwise_not(img)
-
     # if less than 2% of the mask is filled then we are looking at
     # noise and can safely ignore the contour
-    if percentFilled < 0.03:
+    if percentFilled < 0.02:
         print("Only noise")
         return None
 
