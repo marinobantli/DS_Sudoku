@@ -8,6 +8,7 @@ from tkinter import filedialog
 #Vars
 sudokuSize  = 9
 sudokuData  = numpy.empty((sudokuSize, sudokuSize), dtype=object)
+jsonData = None
 
 #Prerequisites
 root        = tkinter.Tk().withdraw() #Don't show tkinter root window
@@ -38,5 +39,6 @@ print("---------------------")
 print(sudokuData)
 print("---------------------")
 print("Generating JSON file")
-jsonCreator.createJSON(sudokuData, sudokuSize)
+jsonData = jsonCreator.createJSON(sudokuData, sudokuSize)
 print("JSON generated.")
+jsonCreator.saveJSON(filedialog.asksaveasfilename(), jsonData)
