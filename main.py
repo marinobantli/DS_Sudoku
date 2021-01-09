@@ -8,11 +8,13 @@ from tkinter import filedialog
 #Vars
 sudokuSize  = 9
 sudokuData  = numpy.empty((sudokuSize, sudokuSize), dtype=object)
-jsonData = None
+imgType     = [('JPG file(*.jpg)', '*.jpg'),('PNG file(*.png)', '*.png')]
+jsonData    = None
+jsonType    = [('JSON file(*.json)', '*.json')]
 
 #Prerequisites
 root        = tkinter.Tk().withdraw() #Don't show tkinter root window
-imgPath     = filedialog.askopenfilename()
+imgPath     = filedialog.askopenfilename(filetypes = imgType, defaultextension = imgType)
 img         = imageProcessor.processImage(imgPath)
 
 print("Sudoku puzzle path:",imgPath)
@@ -40,5 +42,5 @@ print(sudokuData)
 print("---------------------")
 print("Generating JSON file")
 jsonData = jsonCreator.createJSON(sudokuData, sudokuSize)
-print("JSON generated.")
-jsonCreator.saveJSON(filedialog.asksaveasfilename(), jsonData)
+print("JSON generated. Where to save ?")
+jsonCreator.saveJSON(filedialog.asksaveasfilename(filetypes = jsonType, defaultextension = jsonType), jsonData)

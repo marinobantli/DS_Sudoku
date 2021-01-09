@@ -32,6 +32,7 @@ def createJSON(values, sudokuSize):
 def saveJSON(path, data):
     with open(path, 'w') as file:
         json.dump(data, file)
+        print("JSON saved. Path:",path)
 
 def openFolder():
     webbrowser.open('file:' + path)
