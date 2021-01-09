@@ -3,7 +3,7 @@ import ocrEngine
 import numpy
 
 #Vars
-imgPath         = 'D:\\Private\\Juventus\\DataScience\\resources\\sudoku3.png'
+imgPath         = 'D:\\Private\\Juventus\\DataScience\\resources\\sudoku5.jpg'
 img             = imageProcessor.processImage(imgPath)
 sudokuSize      = 9
 
@@ -13,11 +13,15 @@ sudokuData      = numpy.empty((sudokuSize, sudokuSize), dtype=object)
 for x in range(0, sudokuSize):
     for y in range(0, sudokuSize):
         image = imageProcessor.extractDigit(img,x,y)
+        result = ''
 
         if image is not None:
             result = ocrEngine.getChar(image)
             print(result.strip())
-            sudokuData[y, x] = result.strip()
+
+        if result.strip() == '':
+            result = 0
+        sudokuData[x, y] = int(result)
 
 print(sudokuData)
 

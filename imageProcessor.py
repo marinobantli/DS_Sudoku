@@ -60,7 +60,7 @@ def cropImage(img, puzzleCnt):
 #Extract the digit from the cell
 def extractDigit(inputImage, x, y, debug=False):
 
-    cell = inputImage[(25 * y):((25 * y) + 25 + 4), (25 * x):((25 * x) + 25 + 4)]
+    cell = inputImage[(25 * x):((25 * x) + 25 + 4), (25 * y):((25 * y) + 25 + 4)]
 
     img = cv2.resize(cell, dsize=(50,50))
     # apply automatic thresholding to the cell and then clear any
@@ -75,7 +75,7 @@ def extractDigit(inputImage, x, y, debug=False):
 
     # if no contours were found than this is an empty cell
     if len(cnts) == 0:
-        print("Nothing here")
+        print("Nothing in cell (",x ,",",y, ")")
         return None
 
     # otherwise, find the largest contour in the cell and create a
@@ -94,7 +94,7 @@ def extractDigit(inputImage, x, y, debug=False):
     # if less than 2% of the mask is filled then we are looking at
     # noise and can safely ignore the contour
     if percentFilled < 0.02:
-        print("Only noise")
+        print("Noise in cell (",x ,",",y, ")")
         return None
 
     # check to see if we should visualize the masking step
