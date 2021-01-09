@@ -1,10 +1,9 @@
 import imageProcessor
-import imga
 import ocrEngine
 import numpy
 
 #Vars
-imgPath         = '/Users/marinobantli/Documents/Coding/DS_Sudoku/resources/sudoku.jpg'
+imgPath         = 'D:\\Private\\Juventus\\DataScience\\resources\\sudoku2.PNG'
 img             = imageProcessor.processImage(imgPath)
 sudokuSize      = 9
 
@@ -13,12 +12,15 @@ sudokuData      = numpy.empty((sudokuSize, sudokuSize), dtype=object)
 
 for x in range(0, sudokuSize):
     for y in range(0, sudokuSize):
-        result = ocrEngine.getChar(imageProcessor.extract_digit(imageProcessor.getCell(img,x,y)))
-        print(result)
-        if not result.strip():
-            result = 0
+        image = imageProcessor.extractDigit(img,x,y)
 
-        sudokuData[y, x] = int(result)
+        if image is not None:
+            result = ocrEngine.getChar(image)
+            print(result)
+            if not result.strip():
+                result = 0
+
+            sudokuData[y, x] = int(result)
 
 print(sudokuData)
 
