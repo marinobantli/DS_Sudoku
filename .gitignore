@@ -1,4 +1,5 @@
 # Project exclude paths
 .idea
+.__pycache__
 /venv/
 /tesseract/
