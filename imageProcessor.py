@@ -75,7 +75,8 @@ def extractDigit(inputImage, x, y, debug=False):
 
     # if no contours were found than this is an empty cell
     if len(cnts) == 0:
-        print("Nothing in cell (",x ,",",y, ")")
+        if debug:
+            print("Nothing in cell (",x ,",",y, ")")
         return None
 
     # otherwise, find the largest contour in the cell and create a
@@ -94,7 +95,8 @@ def extractDigit(inputImage, x, y, debug=False):
     # if less than 2% of the mask is filled then we are looking at
     # noise and can safely ignore the contour
     if percentFilled < 0.02:
-        print("Noise in cell (",x ,",",y, ")")
+        if debug:
+            print("Noise in cell (",x ,",",y, ")")
         return None
 
     # check to see if we should visualize the masking step
