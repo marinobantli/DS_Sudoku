@@ -92,6 +92,7 @@ def extractDigit(inputImage, x, y, debug=False):
 
     img = cv2.medianBlur(img, 3)
     img = cv2.bitwise_not(img)
+
     # if less than 2% of the mask is filled then we are looking at
     # noise and can safely ignore the contour
     if percentFilled < 0.02:
